@@ -3,7 +3,7 @@ import { ILevelConfig } from 'app/services/levels.service';
 import { LevelsService } from 'app/services/levels.service';
 import { Injectable } from '@angular/core';
 
-const startAtLevel: number = 2;
+const startAtLevel: number = 0;
 @Injectable()
 export class GameEngineService {
   turn: number = 0;
