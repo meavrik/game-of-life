@@ -1,0 +1,6 @@
+<table class='grid'>
+    <tr *ngFor="let row of board.cells">
+        <td *ngFor="let cell of row" [ngClass]="{'alive':cell.isAlive,'accupied':cell.accupied && gameEngine.isStarted}" (click)="toggle(cell)">
+        </td>
+    </tr>
+</table>

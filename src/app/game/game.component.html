@@ -1,0 +1,31 @@
+<div class="page-header text-center">
+    <h1>
+        <span class="text-muted">Conway's</span> Game of Life
+    </h1>
+
+    <div>
+        <p><span class="text-muted">Level :</span> {{gameEngine.currentLevelConfig.index}}</p>
+        <p><span class="text-muted">Goal :</span> {{gameEngine.currentLevelConfig.goal.description}}</p>
+    </div>
+
+    <p *ngIf="gameEngine.isStarted"><span class="text-muted">Generation :</span> {{gameEngine.turn}} <span class="text-muted"> Accupied :</span> {{accupiedPercent}}</p>
+
+    <app-board></app-board>
+
+    <p *ngIf="!gameEngine.isStarted && gameEngine.cellsLeft"><span class="text-muted">Cells :</span> {{gameEngine.cellsLeft}} </p>
+
+    <div *ngIf="!gameEngine.cellsLeft" class="buttons-container">
+        <button class="btn btn-primary" *ngIf="gameEngine.isStarted" (click)="reset()">
+          STOP
+        </button>
+
+        <button class='btn btn-default' *ngIf="!gameEngine.isStarted" (click)="activate()">
+          START
+        </button>
+
+        <button class='btn btn-default' *ngIf="goalReached" (click)="nextLevel()">
+          NEXT 
+        </button>
+    </div>
+
+</div>
