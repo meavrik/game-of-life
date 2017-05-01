@@ -3,28 +3,54 @@
         <span class="text-muted">Conway's</span> Game of Life
     </h1>
 
+
+    <div>
+        <ul style="display:flex;width:50%;justify-content:space-between">
+            <li *ngFor="let level of levelService.levels">
+                <div style="background-color:white;border-radius:30px;width:30px;height:30px;color:gray">
+                    {{level.index}}
+                </div>
+
+            </li>
+        </ul>
+    </div>
+
     <div>
         <p><span class="text-muted">Level :</span> {{gameEngine.currentLevelConfig.index}}</p>
         <p><span class="text-muted">Goal :</span> {{gameEngine.currentLevelConfig.goal.description}}</p>
     </div>
 
-    <p *ngIf="gameEngine.isStarted"><span class="text-muted">Generation :</span> {{gameEngine.turn}} <span class="text-muted"> Accupied :</span> {{accupiedPercent}}</p>
+    <div *ngIf="gameEngine.currentWorld.goalReached" style="border:1px solid white">
+        <h1> Goal Reached </h1>
+    </div>
+
+    <p *ngIf="gameEngine.currentWorld.running"><span class="text-muted">Generation :</span> {{gameEngine.currentWorld.generation}} <span class="text-muted"> Accupied :</span> {{gameEngine.currentWorld.accupiedPercent}}</p>
+
+
+    <h2 *ngIf="gameEngine.goalReached"><span class="text-muted">NICE!</span> LEVEL {{gameEngine.currentLevelConfig.index}} COMPLETED!</h2>
+
 
     <app-board></app-board>
 
-    <p *ngIf="!gameEngine.isStarted && gameEngine.cellsLeft"><span class="text-muted">Cells :</span> {{gameEngine.cellsLeft}} </p>
+    <p *ngIf="!gameEngine.currentWorld.running && gameEngine.cellsLeft"><span class="text-muted">Cells left :</span> {{gameEngine.cellsLeft}} </p>
 
-    <div *ngIf="!gameEngine.cellsLeft" class="buttons-container">
-        <button class="btn btn-primary" *ngIf="gameEngine.isStarted" (click)="reset()">
+
+
+    <div class="buttons-container" *ngIf="!gameEngine.cellsLeft">
+        <button class="btn btn-primary" *ngIf="playing && gameEngine.currentWorld.running" (click)="stop()">
           STOP
         </button>
 
-        <button class='btn btn-default' *ngIf="!gameEngine.isStarted" (click)="activate()">
-          START
+        <button class="btn btn-primary" *ngIf="playing && !gameEngine.currentWorld.running" (click)="tryAgain()">
+          TRY AGAIN
         </button>
 
-        <button class='btn btn-default' *ngIf="goalReached" (click)="nextLevel()">
-          NEXT 
+        <button class='btn btn-default' *ngIf="!playing && !gameEngine.currentWorld.running" (click)="startWorld()">
+          START LIFE
+        </button>
+
+        <button class='btn btn-default' *ngIf="!gameEngine.currentWorld.running && gameEngine.currentWorld.goalReached" (click)="nextLevel()">
+          NEXT LEVEL
         </button>
     </div>
 

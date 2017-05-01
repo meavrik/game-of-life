@@ -1,6 +1,7 @@
 <table class='grid'>
-    <tr *ngFor="let row of board.cells">
-        <td *ngFor="let cell of row" [ngClass]="{'alive':cell.isAlive,'accupied':cell.accupied && gameEngine.isStarted}" (click)="toggle(cell)">
+    <tr *ngFor="let row of gameEngine.currentWorld.board.cells">
+        <td *ngFor="let cell of row" [ngClass]="{'alive':cell.isAlive,'accupied':cell.accupied}" (click)="toggle(cell)">
+            <!--<img *ngIf="cell.isAlive" src="./assets/chewbaca.gif" style="height:20px" />-->
         </td>
     </tr>
 </table>

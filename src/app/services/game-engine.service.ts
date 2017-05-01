@@ -1,70 +1,71 @@
+import { World } from './../game/world';
+import { Cell } from './../cell';
 import { BoardService } from 'app/services/board.service';
 import { ILevelConfig } from 'app/services/levels.service';
 import { LevelsService } from 'app/services/levels.service';
 import { Injectable } from '@angular/core';
 
-const startAtLevel: number = 0;
+
 @Injectable()
 export class GameEngineService {
-  turn: number = 0;
-  isStarted: boolean = false;
+
   currentLevel: number = 0;
   currentLevelConfig: ILevelConfig;
   cellsLeft: number = 0;
-  accupied: number;
+  currentWorld: World;
 
-  constructor(private levelsService: LevelsService, private board: BoardService) {
-    //this.nextLevel();
+  constructor(private levelsService: LevelsService, private boardService: BoardService) {
+
+  }
+
+  startGame(startAtLevel: number = 0, testing: boolean = false) {
     this.currentLevel = startAtLevel;
+    this.setWorld();
   }
+
   stop() {
-    this.isStarted = false;
-
+    this.currentWorld.stopLife();
   }
 
-  pause() {
-
-  }
-
-  start() {
-    this.isStarted = true;
-  }
-  setLevel() {
-    this.accupied = 0;
-    this.turn = 0;
+  setWorld() {
     this.currentLevelConfig = this.levelsService.levels[this.currentLevel];
+    this.currentWorld = new World(this.boardService);
+    this.currentWorld.init(this.currentLevelConfig);
 
-    this.board.generateNew(this.currentLevelConfig.grid.rows, this.currentLevelConfig.grid.columns);
-
-    this.currentLevelConfig.cellsConfig.forEach(cell => {
-      this.board.setCellPosition(cell.x, cell.y, cell.isAlive)
-    })
-
-    this.cellsLeft = this.currentLevelConfig.cells;
+    this.cellsLeft = this.currentLevelConfig.cellsLeft;
   }
 
-  goalReached(): boolean {
-
-    if (this.currentLevelConfig.goal.accupie && this.accupied >= this.currentLevelConfig.goal.accupie) {
-      return true;
-    }
-    console.log('aaaaaa '+this.currentLevelConfig.goal.minTurns);
-    
-    if (this.currentLevelConfig.goal.minTurns && this.turn >= this.currentLevelConfig.goal.minTurns) {
-      return true;
-    }
-
-    return false;
+  startWorldLife() {
+    this.currentWorld.startLife();
   }
 
   nextLevel() {
-    this.stop();
     this.currentLevel++;
-
-
-    this.setLevel();
     console.log('new level ' + this.currentLevel);
+    this.stop();
+    this.setWorld();
   }
 
+
+
+
+  /*testLevelRound(levelConfig: ILevelConfig) {
+
+    for (var i = 0; i < levelConfig.cellsLeft; i++) {
+      let cell: Cell = this.boardService.getUnusedCell();
+
+      if (cell) {
+        cell.isAlive = true;
+      } else {
+        console.log('no empty cell found');
+      }
+    }
+
+    this.startGame(true);
+
+    //let goalReached = this.gameEngine.goalReached()
+    console.log('GoalReached = ' + this.goalReached);
+
+  }*/
 
 }

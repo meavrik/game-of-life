@@ -1,2 +1,1 @@
-<td *ngFor="let cell of row" [ngClass]="{'alive':cell.isAlive}" (click)="cell.toggle()">
-</td>
+<td [ngClass]="{'alive':isAlive,'accupied':accupied && gameEngine.isStarted}" (click)="toggle(cell)"></td>

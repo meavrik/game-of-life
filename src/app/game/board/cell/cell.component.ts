@@ -1,5 +1,5 @@
 import { BoardService } from 'app/services/board.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-cell',
@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CellComponent implements OnInit {
 
-  isAlive: boolean = false;
+  @Input() xpos:number;
+  @Input() ypos:number;
+  @Input() isAlive: boolean = false;
   //neighbors: Cell[];
 
   constructor(private board:BoardService) 
@@ -30,24 +32,5 @@ export class CellComponent implements OnInit {
   dies() {
       this.isAlive = false;
   }
-
-  /*getAliveNeighbors(board) {
-      var y = this.position.y;
-      var x = this.position.x;
-      var prevRow = board[y - 1] || [];
-      var nextRow = board[y + 1] || [];
-      var neighbors = [
-          prevRow[x - 1], prevRow[x], prevRow[x + 1],
-          board[y][x - 1], board[y][x + 1],
-          nextRow[x - 1], nextRow[x], nextRow[x + 1],
-      ];
-      return neighbors.reduce(function (prev, curr) {
-          if (curr) {
-              return prev += +!!curr.isAlive;
-          }
-          return prev += 0;
-      }, 0);
-  }*/
-  
 
 }

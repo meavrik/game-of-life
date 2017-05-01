@@ -4,7 +4,7 @@ export class Cell {
     _lifeAround: number = 0;
     _isAlive: boolean = false;
     accupied: boolean = false;
-    nextState: string = "none"
+    //nextState: string = "none"
     locked: boolean = false;
 
     set lifeAround(value) {
@@ -32,7 +32,7 @@ export class Cell {
         this.isAlive = !this.isAlive;
     }
 
-    nextGeneration() {
+    updateLifeAround() {
         this.lifeAround = 0;
         this.neighbors.forEach(neighbor => {
             if (neighbor.isAlive) {

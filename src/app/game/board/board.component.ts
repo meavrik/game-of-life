@@ -1,7 +1,8 @@
 import { GameEngineService } from 'app/services/game-engine.service';
 import { BoardService } from 'app/services/board.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { Cell } from "app/cell";
+
 
 @Component({
   selector: 'app-board',
@@ -9,8 +10,8 @@ import { Cell } from "app/cell";
 })
 export class BoardComponent {
 
-  constructor(private board: BoardService, private gameEngine: GameEngineService) {
-
+  constructor(public board: BoardService, private gameEngine: GameEngineService) {
+    
   }
 
   toggle(cell: Cell) {
@@ -23,7 +24,5 @@ export class BoardComponent {
         this.gameEngine.cellsLeft++;
       }
     }
-
   }
-
 }
